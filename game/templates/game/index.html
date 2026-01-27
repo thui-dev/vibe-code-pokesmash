@@ -1,0 +1,75 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokémon Smash or Pass</title>
+    <link rel="stylesheet" href="{% static 'game/css/style.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="background-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
+
+    <nav>
+        <div class="logo">PokeSmash</div>
+        <div class="links">
+            <div id="user-info" style="display: none;">
+                <span id="username-display"></span>
+                <button id="logout-btn" class="logout-btn">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Login Modal -->
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <h2>Welcome to PokeSmash!</h2>
+            <p>Enter your username to start playing</p>
+            <form id="login-form">
+                <input type="text" id="username-input" placeholder="Enter your username" autocomplete="username"
+                    required />
+                <div id="login-error" class="error-message"></div>
+                <button type="submit" class="login-submit-btn">Start Playing</button>
+            </form>
+        </div>
+    </div>
+
+    <main class="game-container">
+        <div id="pokemon-card" class="pokemon-card">
+            <div class="card-inner">
+                <div class="card-front">
+                    <div class="pokemon-image-container">
+                        <div id="image-loader" class="loader"></div>
+                        <img id="pokemon-image" src="" alt="Pokemon">
+                    </div>
+                    <div class="pokemon-info">
+                        <h1 id="pokemon-name">Loading...</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="actions">
+            <button id="pass-btn" class="btn pass-btn">
+                <span class="icon">✕</span>
+                PASS
+            </button>
+            <button id="smash-btn" class="btn smash-btn">
+                <span class="icon">❤️</span>
+                SMASH
+            </button>
+        </div>
+    </main>
+
+    <script src="{% static 'game/js/main.js' %}"></script>
+</body>
+
+</html>
