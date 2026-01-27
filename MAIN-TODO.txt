@@ -1,0 +1,8 @@
+swipe ainda ta bugado. talvez refazer em react
+mudar pra não ser aleatório, mas sim em ordem da PokeApi Id. e tbm um input de número no topo da tela que mostre o id do pokemon atual, e que permita digitar outro id
+botao de voltar pro pokemon anterior
+
+
+analytics
+
+lista de pokemons (com pequenas imagens de preview) e porcentagens de smash e pass. no topo da seção, um selector pra ordenar essa lista por maior porcentagem de smash, maior porcentagem de pass.

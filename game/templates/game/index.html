@@ -21,9 +21,17 @@
     <nav>
         <div class="logo">PokeSmash</div>
         <div class="links">
-            <div id="user-info" style="display: none;">
-                <span id="username-display"></span>
-                <button id="logout-btn" class="logout-btn">Logout</button>
+            <div id="user-info" style="display: none; align-items: center; gap: 1rem;">
+                <form id="id-jump-form" style="position: relative;">
+                    <span
+                        style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); opacity: 0.5; font-size: 0.8rem;">#</span>
+                    <input type="number" id="pokemon-id-input" placeholder="ID" min="1" max="1025"
+                        style="width: 80px; padding: 5px 5px 5px 25px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.1); color: white; text-align: center;">
+                </form>
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <span id="username-display"></span>
+                    <button id="logout-btn" class="logout-btn">Logout</button>
+                </div>
             </div>
         </div>
     </nav>
@@ -43,6 +51,11 @@
     </div>
 
     <main class="game-container">
+        <div class="card-navigation">
+            <button id="prev-btn" class="nav-text-btn" title="Previous">← Prev</button>
+            <button id="next-btn" class="nav-text-btn" title="Next">Next →</button>
+        </div>
+
         <div id="pokemon-card" class="pokemon-card">
             <div class="card-inner">
                 <div class="card-front">

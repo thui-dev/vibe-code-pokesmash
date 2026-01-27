@@ -6,6 +6,16 @@ class Pokemon(models.Model):
     image_url = models.URLField()
     smash_count = models.IntegerField(default=0)
     pass_count = models.IntegerField(default=0)
+    EVOLUTION_STAGES = [
+        ('FIRST', 'First'),
+        ('MIDDLE', 'Middle'),
+        ('LAST', 'Last'),
+        ('NONE', 'No Evolution'),
+    ]
+    evolution_stage = models.CharField(max_length=10, choices=EVOLUTION_STAGES, default='NONE')
+    shape = models.CharField(max_length=50, blank=True, null=True)
+    color = models.CharField(max_length=20, blank=True, null=True)
+    generation = models.CharField(max_length=20, blank=True, null=True)
 
     def __str__(self):
         return self.name

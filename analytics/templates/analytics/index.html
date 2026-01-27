@@ -1,0 +1,209 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics - User Selection</title>
+    <link rel="stylesheet" href="{% static 'game/css/style.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        .analytics-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .user-list {
+            list-style: none;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .user-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .user-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.03), transparent);
+            transform: translateX(-100%);
+            transition: 0.5s;
+        }
+
+        .user-item:hover {
+            transform: translateY(-8px);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--accent);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+        }
+
+        .user-item:hover::before {
+            transform: translateX(100%);
+        }
+
+        .user-link {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.4rem;
+            display: block;
+            letter-spacing: 0.5px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 2rem;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* General Stats Styles */
+        .general-stats {
+            margin-bottom: 4rem;
+            padding-bottom: 3rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .general-stats h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .stats-grid-small {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .stat-card-small {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1.5rem;
+            border-radius: 16px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .stat-label-small {
+            opacity: 0.7;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value-small {
+            font-size: 2.5rem;
+            font-weight: 700;
+            display: block;
+            line-height: 1.2;
+        }
+
+        .stat-user-link {
+            color: var(--text);
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+            display: inline-block;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.2s;
+        }
+
+        .stat-user-link:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .smash-stat {
+            color: var(--smash);
+        }
+
+        .pass-stat {
+            color: var(--pass);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="background-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
+
+    <nav>
+        <div class="logo">PokeSmash Analytics</div>
+        <div class="links">
+            <a href="/">Back to Game</a>
+        </div>
+    </nav>
+
+    <main class="analytics-container">
+        <!-- General Stats Section -->
+        <div class="general-stats">
+            <h2>Hall of Fame</h2>
+            <div class="stats-grid-small">
+                <div class="stat-card-small">
+                    <span class="stat-label-small">Most Smashes</span>
+                    {% if most_smashes %}
+                    <span class="stat-value-small smash-stat">{{ most_smashes.count }}</span>
+                    <a href="{% url 'analytics:user_stats' username=most_smashes.username %}" class="stat-user-link">{{ most_smashes.username }}</a>
+                    {% else %}
+                    <span class="stat-value-small" style="font-size: 1.5rem; opacity: 0.5;">-</span>
+                    {% endif %}
+                </div>
+                <div class="stat-card-small">
+                    <span class="stat-label-small">Most Passes</span>
+                    {% if most_passes %}
+                    <span class="stat-value-small pass-stat">{{ most_passes.count }}</span>
+                    <a href="{% url 'analytics:user_stats' username=most_passes.username %}" class="stat-user-link">{{ most_passes.username }}</a>
+                    {% else %}
+                    <span class="stat-value-small" style="font-size: 1.5rem; opacity: 0.5;">-</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <h1>All Users</h1>
+        {% if usernames %}
+        <ul class="user-list">
+            {% for username in usernames %}
+            <li class="user-item">
+                <a href="{% url 'analytics:user_stats' username=username %}" class="user-link">
+                    {{ username }}
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p style="text-align: center; opacity: 0.7;">No users have voted yet.</p>
+        {% endif %}
+    </main>
+</body>
+
+</html>
