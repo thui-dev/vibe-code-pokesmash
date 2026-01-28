@@ -1,4 +1,7 @@
 from django.db import models
+from django.db.models.signals import post_save, post_delete
+from django.dispatch import receiver
+from django.db.models import Count
 
 class Pokemon(models.Model):
     pokeapi_id = models.IntegerField(unique=True)
@@ -42,3 +45,19 @@ class Vote(models.Model):
     def __str__(self):
         action = "Smash" if self.smash else "Pass"
         return f"{self.username} - {action} - {self.pokemon.name}"
+
+@receiver(post_save, sender=Vote)
+def update_pokemon_counts_on_save(sender, instance, created, **kwargs):
+    """Update Pokemon counts when a Vote is saved."""
+    pokemon = instance.pokemon
+    pokemon.smash_count = Vote.objects.filter(pokemon=pokemon, smash=True).count()
+    pokemon.pass_count = Vote.objects.filter(pokemon=pokemon, smash=False).count()
+    pokemon.save()
+
+@receiver(post_delete, sender=Vote)
+def update_pokemon_counts_on_delete(sender, instance, **kwargs):
+    """Update Pokemon counts when a Vote is deleted."""
+    pokemon = instance.pokemon
+    pokemon.smash_count = Vote.objects.filter(pokemon=pokemon, smash=True).count()
+    pokemon.pass_count = Vote.objects.filter(pokemon=pokemon, smash=False).count()
+    pokemon.save()

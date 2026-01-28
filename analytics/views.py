@@ -1,23 +1,74 @@
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Count, Q
-from game.models import Vote
+from game.models import Pokemon, Vote
 from django.contrib.auth.models import User
 
 def index(request):
     """
-    Display a list of all users who have voted.
+    Display a list of all users who have voted and a global Pokémon gallery.
     """
-    # Get distinct usernames from the Vote model
-    usernames = Vote.objects.values_list('username', flat=True).distinct().order_by('username')
+    # Get all distinct usernames from the Vote model
+    all_usernames = list(Vote.objects.values_list('username', flat=True).distinct().order_by('username'))
+    total_users_count = len(all_usernames)
     
     # Calculate General Stats
     most_smashes = Vote.objects.filter(smash=True).values('username').annotate(count=Count('id')).order_by('-count').first()
     most_passes = Vote.objects.filter(smash=False).values('username').annotate(count=Count('id')).order_by('-count').first()
     
+    # Pokémon Gallery Data
+    all_pokemon = Pokemon.objects.all().order_by('pokeapi_id')
+    
+    # Pre-fetch all votes to map users to pokemon efficiently
+    votes = Vote.objects.values('pokemon__pokeapi_id', 'username', 'smash')
+    vote_map = {}
+    for v in votes:
+        pid = v['pokemon__pokeapi_id']
+        if pid not in vote_map:
+            vote_map[pid] = {'smash_users': [], 'pass_users': []}
+        if v['smash']:
+            vote_map[pid]['smash_users'].append(v['username'])
+        else:
+            vote_map[pid]['pass_users'].append(v['username'])
+
+    pokemon_stats = []
+    for p in all_pokemon:
+        breakdown = vote_map.get(p.pokeapi_id, {'smash_users': [], 'pass_users': []})
+        smash_users = breakdown['smash_users']
+        pass_users = breakdown['pass_users']
+        voted_users = set(smash_users + pass_users)
+        
+        # Determine who hasn't voted
+        pending_users = [u for u in all_usernames if u not in voted_users]
+        
+        smash_count = len(smash_users)
+        pass_count = len(pass_users)
+        pending_count = len(pending_users)
+        
+        smash_rate = (smash_count / total_users_count * 100) if total_users_count > 0 else 0
+        pass_rate = (pass_count / total_users_count * 100) if total_users_count > 0 else 0
+        pending_rate = (pending_count / total_users_count * 100) if total_users_count > 0 else 0
+            
+        pokemon_stats.append({
+            'pokeapi_id': p.pokeapi_id,
+            'name': p.name.capitalize(),
+            'image_url': p.image_url,
+            'smash_count': smash_count,
+            'pass_count': pass_count,
+            'pending_count': pending_count,
+            'smash_rate': round(smash_rate, 1),
+            'pass_rate': round(pass_rate, 1),
+            'pending_rate': round(pending_rate, 1),
+            'smash_users': smash_users,
+            'pass_users': pass_users,
+            'pending_users': pending_users
+        })
+
     context = {
-        'usernames': usernames,
+        'usernames': all_usernames,
         'most_smashes': most_smashes,
         'most_passes': most_passes,
+        'pokemon_stats': pokemon_stats,
+        'total_users': total_users_count,
     }
     return render(request, 'analytics/index.html', context)
 

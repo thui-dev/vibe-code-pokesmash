@@ -10,11 +10,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
         .stats-container {
-            max-width: 900px;
+            max-width: 1400px;
             margin: 4rem auto;
-            padding: 3rem;
+            padding: 4rem;
             background: rgba(255, 255, 255, 0.03);
-            border-radius: 32px;
+            border-radius: 40px;
             border: 1px solid rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(20px);
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
@@ -22,7 +22,7 @@
 
         .stats-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 3rem;
             margin-top: 3rem;
         }
@@ -220,7 +220,7 @@
             width: 80px;
             height: 80px;
             object-fit: contain;
-            filter: drop-shadow(0 0 10px rgba(0,0,0,0.5));
+            filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.5));
             transition: transform 0.3s;
         }
 
@@ -343,39 +343,42 @@
                 Total Votes: <strong>{{ total_votes }}</strong>
             </div>
 
-            <!-- Evolution Analysis Section -->
-            <div class="stats-section">
-                <h2 class="chart-title">Evolution Analysis <span>(Smashed Pokémon)</span></h2>
-                <p class="chart-instruction">Click on a bar to see the Pokémon</p>
-                <div class="chart-container">
-                    <canvas id="evolutionChart"></canvas>
+            <!-- Charts Grid -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(600px, 1fr)); gap: 4rem;">
+                <!-- Evolution Analysis Section -->
+                <div class="stats-section" style="margin-top: 2rem;">
+                    <h2 class="chart-title">Evolution Analysis <span>(Smashed Pokémon)</span></h2>
+                    <p class="chart-instruction">Click on a bar to see the Pokémon</p>
+                    <div class="chart-container">
+                        <canvas id="evolutionChart"></canvas>
+                    </div>
                 </div>
-            </div>
 
-            <!-- Shape Analysis Section -->
-            <div class="stats-section">
-                <h2 class="chart-title">Shape Analysis <span>(Smashed Pokémon)</span></h2>
-                <p class="chart-instruction">Click on a bar to see the Pokémon</p>
-                <div class="chart-container" style="height: 400px;">
-                    <canvas id="shapeChart"></canvas>
+                <!-- Shape Analysis Section -->
+                <div class="stats-section" style="margin-top: 2rem;">
+                    <h2 class="chart-title">Shape Analysis <span>(Smashed Pokémon)</span></h2>
+                    <p class="chart-instruction">Click on a bar to see the Pokémon</p>
+                    <div class="chart-container" style="height: 400px;">
+                        <canvas id="shapeChart"></canvas>
+                    </div>
                 </div>
-            </div>
 
-            <!-- Color Analysis Section -->
-            <div class="stats-section">
-                <h2 class="chart-title">Color Analysis <span>(Smashed Pokémon)</span></h2>
-                <p class="chart-instruction">Click on a bar to see the Pokémon</p>
-                <div class="chart-container" style="height: 400px;">
-                    <canvas id="colorChart"></canvas>
+                <!-- Color Analysis Section -->
+                <div class="stats-section" style="margin-top: 2rem;">
+                    <h2 class="chart-title">Color Analysis <span>(Smashed Pokémon)</span></h2>
+                    <p class="chart-instruction">Click on a bar to see the Pokémon</p>
+                    <div class="chart-container" style="height: 400px;">
+                        <canvas id="colorChart"></canvas>
+                    </div>
                 </div>
-            </div>
 
-            <!-- Generation Analysis Section -->
-            <div class="stats-section">
-                <h2 class="chart-title">Generation Analysis <span>(Smashed Pokémon)</span></h2>
-                <p class="chart-instruction">Click on a bar to see the Pokémon</p>
-                <div class="chart-container">
-                    <canvas id="generationChart"></canvas>
+                <!-- Generation Analysis Section -->
+                <div class="stats-section" style="margin-top: 2rem;">
+                    <h2 class="chart-title">Generation Analysis <span>(Smashed Pokémon)</span></h2>
+                    <p class="chart-instruction">Click on a bar to see the Pokémon</p>
+                    <div class="chart-container">
+                        <canvas id="generationChart"></canvas>
+                    </div>
                 </div>
             </div>
         </div>
@@ -420,16 +423,16 @@
             const modal = document.getElementById('drilldownModal');
             const grid = document.getElementById('pokemonGrid');
             const title = document.getElementById('modalTitle');
-            
+
             title.textContent = titleText + ' Pokémon';
             grid.innerHTML = '';
-            
+
             let list = [];
             if (type === 'evo') list = evoDataList[key];
             else if (type === 'shape') list = shapeDataList[key];
             else if (type === 'color') list = colorDataList[key];
             else if (type === 'gen') list = genDataList[key];
-            
+
             if (!list || list.length === 0) {
                 grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; opacity: 0.5;">No Pokémon smashed in this category.</p>';
             } else {
@@ -445,7 +448,7 @@
                     grid.appendChild(item);
                 });
             }
-            
+
             modal.classList.add('active');
             document.body.style.overflow = 'hidden';
         }
@@ -462,11 +465,11 @@
             const img = document.getElementById('expandedImage');
             const nameEl = document.getElementById('expandedName');
             const idEl = document.getElementById('expandedId');
-            
+
             img.src = url;
             nameEl.textContent = name;
             idEl.textContent = '#' + id;
-            
+
             overlay.classList.add('active');
             document.body.style.overflow = 'hidden';
         }
@@ -479,7 +482,7 @@
         }
 
         // Close modal on background click
-        window.onclick = function(event) {
+        window.onclick = function (event) {
             const modal = document.getElementById('drilldownModal');
             if (event.target == modal) {
                 closeModal();
@@ -487,7 +490,7 @@
         }
 
         // Close extension on Escape key
-        document.addEventListener('keydown', function(event) {
+        document.addEventListener('keydown', function (event) {
             if (event.key === 'Escape') {
                 if (document.getElementById('imageExpansionOverlay').classList.contains('active')) {
                     closeExpansion();
@@ -497,7 +500,7 @@
             }
         });
 
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             // Shared Styles
             const chartFont = { family: 'Outfit', size: 12 };
             const gridColor = 'rgba(255, 255, 255, 0.05)';
@@ -516,130 +519,129 @@
                     datasets: [{
                         label: 'Smashes',
                         data: [{{ evo_data.NONE|default:0 }}, {{ evo_data.FIRST|default:0 }}, {{ evo_data.MIDDLE|default:0 }}, {{ evo_data.LAST|default:0 }}],
-                        backgroundColor: [evoColors.none + '44', evoColors.first + '44', evoColors.middle + '44', evoColors.last + '44'],
-                        borderColor: [evoColors.none, evoColors.first, evoColors.middle, evoColors.last],
-                        borderWidth: 2,
-                        borderRadius: 8,
-                        hoverBackgroundColor: [evoColors.none + '88', evoColors.first + '88', evoColors.middle + '88', evoColors.last + '88'],
+            backgroundColor: [evoColors.none + '44', evoColors.first + '44', evoColors.middle + '44', evoColors.last + '44'],
+            borderColor: [evoColors.none, evoColors.first, evoColors.middle, evoColors.last],
+            borderWidth: 2,
+            borderRadius: 8,
+            hoverBackgroundColor: [evoColors.none + '88', evoColors.first + '88', evoColors.middle + '88', evoColors.last + '88'],
                     }]
                 },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    onClick: (e, el) => { if (el.length > 0) openModal('evo', evoStages[el[0].index], evoLabels[el[0].index]); },
-                    plugins: { legend: { display: false }, tooltip: { enabled: true } },
-                    scales: { 
-                        y: { beginAtZero: true, grid: { color: gridColor }, ticks: { color: tickColor, font: chartFont, stepSize: 1 } },
-                        x: { grid: { display: false }, ticks: { color: 'rgba(255, 255, 255, 0.7)', font: { ...chartFont, size: 14 } } }
-                    }
-                }
+            options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            onClick: (e, el) => { if (el.length > 0) openModal('evo', evoStages[el[0].index], evoLabels[el[0].index]); },
+            plugins: { legend: { display: false }, tooltip: { enabled: true } },
+            scales: {
+                y: { beginAtZero: true, grid: { color: gridColor }, ticks: { color: tickColor, font: chartFont, stepSize: 1 } },
+                x: { grid: { display: false }, ticks: { color: 'rgba(255, 255, 255, 0.7)', font: { ...chartFont, size: 14 } } }
+            }
+        }
             });
 
-            // Shape Chart
-            const shapeCtx = document.getElementById('shapeChart').getContext('2d');
-            const shapeRawData = {{ shape_data|safe }};
-            const sortedShapes = Object.keys(shapeRawData).sort((a, b) => shapeRawData[b] - shapeRawData[a]);
-            const shapeValues = sortedShapes.map(s => shapeRawData[s]);
-            const palette = ['#818cf8', '#fb7185', '#34d399', '#fbbf24', '#38bdf8', '#a78bfa', '#f472b6', '#4ade80'];
+        // Shape Chart
+        const shapeCtx = document.getElementById('shapeChart').getContext('2d');
+        const shapeRawData = {{ shape_data| safe }};
+        const sortedShapes = Object.keys(shapeRawData).sort((a, b) => shapeRawData[b] - shapeRawData[a]);
+        const shapeValues = sortedShapes.map(s => shapeRawData[s]);
+        const palette = ['#818cf8', '#fb7185', '#34d399', '#fbbf24', '#38bdf8', '#a78bfa', '#f472b6', '#4ade80'];
 
-            new Chart(shapeCtx, {
-                type: 'bar',
-                data: {
-                    labels: sortedShapes,
-                    datasets: [{
-                        label: 'Smashes',
-                        data: shapeValues,
-                        backgroundColor: sortedShapes.map((_, i) => palette[i % palette.length] + '44'),
-                        borderColor: sortedShapes.map((_, i) => palette[i % palette.length]),
-                        borderWidth: 2,
-                        borderRadius: 8,
-                        hoverBackgroundColor: sortedShapes.map((_, i) => palette[i % palette.length] + '88'),
-                    }]
-                },
-                options: {
-                    indexAxis: 'y',
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    onClick: (e, el) => { if (el.length > 0) openModal('shape', sortedShapes[el[0].index], sortedShapes[el[0].index]); },
-                    plugins: { legend: { display: false } },
-                    scales: { 
-                        x: { beginAtZero: true, grid: { color: gridColor }, ticks: { color: tickColor, font: chartFont, stepSize: 1 } },
-                        y: { grid: { display: false }, ticks: { color: 'rgba(255, 255, 255, 0.7)', font: { ...chartFont, size: 12 } } }
-                    }
+        new Chart(shapeCtx, {
+            type: 'bar',
+            data: {
+                labels: sortedShapes,
+                datasets: [{
+                    label: 'Smashes',
+                    data: shapeValues,
+                    backgroundColor: sortedShapes.map((_, i) => palette[i % palette.length] + '44'),
+                    borderColor: sortedShapes.map((_, i) => palette[i % palette.length]),
+                    borderWidth: 2,
+                    borderRadius: 8,
+                    hoverBackgroundColor: sortedShapes.map((_, i) => palette[i % palette.length] + '88'),
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                onClick: (e, el) => { if (el.length > 0) openModal('shape', sortedShapes[el[0].index], sortedShapes[el[0].index]); },
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: { beginAtZero: true, grid: { color: gridColor }, ticks: { color: tickColor, font: chartFont, stepSize: 1 } },
+                    y: { grid: { display: false }, ticks: { color: 'rgba(255, 255, 255, 0.7)', font: { ...chartFont, size: 12 } } }
                 }
-            });
+            }
+        });
 
-            // Color Chart
-            const colorCtx = document.getElementById('colorChart').getContext('2d');
-            const colorRawData = {{ color_data|safe }};
-            const sortedColors = Object.keys(colorRawData).sort((a, b) => colorRawData[b] - colorRawData[a]);
-            const colorValues = sortedColors.map(c => colorRawData[c]);
-            const pokeColorMap = {
-                'black': '#1f2937', 'blue': '#3b82f6', 'brown': '#92400e', 
-                'gray': '#6b7280', 'green': '#10b981', 'pink': '#ec4899', 
-                'purple': '#8b5cf6', 'red': '#ef4444', 'white': '#f9fafb', 
-                'yellow': '#facc15', 'unknown': '#4b5563'
-            };
+        // Color Chart
+        const colorCtx = document.getElementById('colorChart').getContext('2d');
+        const colorRawData = {{ color_data| safe }};
+        const sortedColors = Object.keys(colorRawData).sort((a, b) => colorRawData[b] - colorRawData[a]);
+        const colorValues = sortedColors.map(c => colorRawData[c]);
+        const pokeColorMap = {
+            'black': '#1f2937', 'blue': '#3b82f6', 'brown': '#92400e',
+            'gray': '#6b7280', 'green': '#10b981', 'pink': '#ec4899',
+            'purple': '#8b5cf6', 'red': '#ef4444', 'white': '#f9fafb',
+            'yellow': '#facc15', 'unknown': '#4b5563'
+        };
 
-            new Chart(colorCtx, {
-                type: 'bar',
-                data: {
-                    labels: sortedColors,
-                    datasets: [{
-                        label: 'Smashes',
-                        data: colorValues,
-                        backgroundColor: sortedColors.map(c => pokeColorMap[c] || '#4b5563') + '44', // Note: map returns array, this might fail, let's use map properly
-                        backgroundColor: sortedColors.map(c => (pokeColorMap[c] || '#4b5563') + '44'),
-                        borderColor: sortedColors.map(c => (pokeColorMap[c] || '#4b5563')),
-                        borderWidth: 2,
-                        borderRadius: 8,
-                        hoverBackgroundColor: sortedColors.map(c => (pokeColorMap[c] || '#4b5563') + '88'),
-                    }]
-                },
-                options: {
-                    indexAxis: 'y',
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    onClick: (e, el) => { if (el.length > 0) openModal('color', sortedColors[el[0].index], sortedColors[el[0].index]); },
-                    plugins: { legend: { display: false } },
-                    scales: { 
-                        x: { beginAtZero: true, grid: { color: gridColor }, ticks: { color: tickColor, font: chartFont, stepSize: 1 } },
-                        y: { grid: { display: false }, ticks: { color: 'rgba(255, 255, 255, 0.7)', font: { ...chartFont, size: 12 } } }
-                    }
+        new Chart(colorCtx, {
+            type: 'bar',
+            data: {
+                labels: sortedColors,
+                datasets: [{
+                    label: 'Smashes',
+                    data: colorValues,
+                    backgroundColor: sortedColors.map(c => (pokeColorMap[c] || '#4b5563') + '44'),
+                    borderColor: sortedColors.map(c => (pokeColorMap[c] || '#4b5563')),
+                    borderWidth: 2,
+                    borderRadius: 8,
+                    hoverBackgroundColor: sortedColors.map(c => (pokeColorMap[c] || '#4b5563') + '88'),
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                onClick: (e, el) => { if (el.length > 0) openModal('color', sortedColors[el[0].index], sortedColors[el[0].index]); },
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: { beginAtZero: true, grid: { color: gridColor }, ticks: { color: tickColor, font: chartFont, stepSize: 1 } },
+                    y: { grid: { display: false }, ticks: { color: 'rgba(255, 255, 255, 0.7)', font: { ...chartFont, size: 12 } } }
                 }
-            });
+            }
+        });
 
-            // Generation Chart
-            const genCtx = document.getElementById('generationChart').getContext('2d');
-            const genRawData = {{ gen_data|safe }};
-            const sortedGens = Object.keys(genRawData).sort();
-            const genValues = sortedGens.map(g => genRawData[g]);
+        // Generation Chart
+        const genCtx = document.getElementById('generationChart').getContext('2d');
+        const genRawData = {{ gen_data| safe }};
+        const sortedGens = Object.keys(genRawData).sort();
+        const genValues = sortedGens.map(g => genRawData[g]);
 
-            new Chart(genCtx, {
-                type: 'bar',
-                data: {
-                    labels: sortedGens.map(g => g.replace('generation-', 'Gen ').toUpperCase()),
-                    datasets: [{
-                        label: 'Smashes',
-                        data: genValues,
-                        backgroundColor: palette[0] + '44',
-                        borderColor: palette[0],
-                        borderWidth: 2,
-                        borderRadius: 8,
-                        hoverBackgroundColor: palette[0] + '88',
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    onClick: (e, el) => { if (el.length > 0) openModal('gen', sortedGens[el[0].index], sortedGens[el[0].index]); },
-                    plugins: { legend: { display: false } },
-                    scales: { 
-                        y: { beginAtZero: true, grid: { color: gridColor }, ticks: { color: tickColor, font: chartFont, stepSize: 1 } },
-                        x: { grid: { display: false }, ticks: { color: 'rgba(255, 255, 255, 0.7)', font: { ...chartFont, size: 14 } } }
-                    }
+        new Chart(genCtx, {
+            type: 'bar',
+            data: {
+                labels: sortedGens.map(g => g.replace('generation-', 'Gen ').toUpperCase()),
+                datasets: [{
+                    label: 'Smashes',
+                    data: genValues,
+                    backgroundColor: palette[0] + '44',
+                    borderColor: palette[0],
+                    borderWidth: 2,
+                    borderRadius: 8,
+                    hoverBackgroundColor: palette[0] + '88',
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                onClick: (e, el) => { if (el.length > 0) openModal('gen', sortedGens[el[0].index], sortedGens[el[0].index]); },
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { beginAtZero: true, grid: { color: gridColor }, ticks: { color: tickColor, font: chartFont, stepSize: 1 } },
+                    x: { grid: { display: false }, ticks: { color: 'rgba(255, 255, 255, 0.7)', font: { ...chartFont, size: 14 } } }
                 }
-            });
+            }
+        });
         });
     </script>
 </body>

@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
         .analytics-container {
-            max-width: 1200px;
+            max-width: 1600px;
             margin: 0 auto;
             padding: 4rem 2rem;
         }
@@ -19,8 +19,20 @@
             list-style: none;
             padding: 0;
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2.5rem;
+        }
+
+        @media (min-width: 1400px) {
+            .user-list {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        @media (min-width: 1800px) {
+            .user-list {
+                grid-template-columns: repeat(5, 1fr);
+            }
         }
 
         .user-item {
@@ -96,7 +108,7 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 2rem;
-            max-width: 800px;
+            max-width: 1200px;
             margin: 0 auto;
         }
 
@@ -146,6 +158,312 @@
 
         .pass-stat {
             color: var(--pass);
+        }
+
+        /* Global Gallery Styles */
+        .gallery-section {
+            margin-top: 6rem;
+            padding-top: 4rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .gallery-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .gallery-header h2 {
+            font-size: 2.5rem;
+            margin: 0;
+            background: linear-gradient(to right, var(--text), rgba(255, 255, 255, 0.5));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .sort-controls {
+            display: flex;
+            gap: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.5rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sort-btn {
+            background: transparent;
+            border: none;
+            color: var(--text);
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+            opacity: 0.6;
+        }
+
+        .sort-btn:hover {
+            opacity: 1;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .sort-btn.active {
+            opacity: 1;
+            background: var(--accent);
+            box-shadow: 0 4px 15px rgba(var(--accent-rgb), 0.3);
+        }
+
+        .pokemon-gallery {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2.5rem;
+        }
+
+        @media (min-width: 1024px) {
+            .pokemon-gallery {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (min-width: 1600px) {
+            .pokemon-gallery {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .gallery-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 1.5rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-8px);
+            background: rgba(255, 255, 255, 0.07);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 20px 40px -20px rgba(0, 0, 0, 0.5);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 180px;
+            object-fit: contain;
+            filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.3));
+            transition: transform 0.5s ease;
+            margin-bottom: 1rem;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-info {
+            text-align: left;
+        }
+
+        .gallery-name {
+            display: block;
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text);
+            text-transform: capitalize;
+        }
+
+        .gallery-name small {
+            opacity: 0.4;
+            float: right;
+            font-weight: 400;
+        }
+
+        /* Rate Bar Styles (Screenshot Inspired) */
+        .rate-bar-container {
+            margin-top: 1rem;
+        }
+
+        .rate-values {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+        }
+
+        .rate-smash,
+        .rate-pass,
+        .rate-pending {
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+
+        .rate-smash:hover {
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .rate-pass:hover {
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        .rate-pending:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .pending-stat {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Voters Modal Specifics */
+        .voter-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            justify-content: center;
+        }
+
+        .voter-tag {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text);
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .voter-tag:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+            transform: scale(1.05);
+        }
+
+        .rate-bar {
+            height: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            overflow: hidden;
+            display: flex;
+            gap: 2px;
+        }
+
+        .rate-bar-fill {
+            height: 100%;
+            border-radius: 2px;
+        }
+
+        .rate-bar-fill.smash {
+            background: var(--smash);
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.4);
+        }
+
+        .rate-bar-fill.pass {
+            background: var(--pass);
+            box-shadow: 0 0 10px rgba(239, 68, 68, 0.4);
+        }
+
+        .rate-bar-fill.pending {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Image Expansion Overlay */
+        .image-expansion-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .image-expansion-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .expanded-image-container {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transform: scale(0.8);
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .image-expansion-overlay.active .expanded-image-container {
+            transform: scale(1);
+        }
+
+        .expanded-image-container img {
+            max-width: 100%;
+            max-height: 70vh;
+            object-fit: contain;
+            filter: drop-shadow(0 0 30px rgba(var(--primary-rgb), 0.3));
+        }
+
+        .expanded-info {
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        .expanded-name {
+            font-size: 3rem;
+            font-weight: 800;
+            display: block;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+            text-transform: capitalize;
+        }
+
+        .expanded-id {
+            font-size: 1.5rem;
+            opacity: 0.5;
+            letter-spacing: 2px;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: none;
+            color: var(--text);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            z-index: 2001;
+        }
+
+        .modal-close:hover {
+            background: var(--primary);
+            transform: rotate(90deg);
         }
     </style>
 </head>
@@ -201,9 +519,188 @@
             {% endfor %}
         </ul>
         {% else %}
-        <p style="text-align: center; opacity: 0.7;">No users have voted yet.</p>
+        <p style="text-align: center; opacity: 0.7; margin-bottom: 4rem;">No users have voted yet.</p>
         {% endif %}
+
+        <div class="gallery-section">
+            <div class="gallery-header">
+                <h2>Global Pokémon Gallery</h2>
+                <div class="sort-controls">
+                    <button class="sort-btn active" onclick="sortGallery(this, 'pokeapi_id')"># ID</button>
+                    <button class="sort-btn" onclick="sortGallery(this, 'smash_rate')">Most Smashed</button>
+                    <button class="sort-btn" onclick="sortGallery(this, 'pass_rate')">Most Passed</button>
+                    <button class="sort-btn" onclick="sortGallery(this, 'pending_rate')">Most Pending</button>
+                </div>
+            </div>
+
+            <div id="pokemon-gallery" class="pokemon-gallery">
+                {% for p in pokemon_stats %}
+                <div class="gallery-item" data-id="{{ p.pokeapi_id }}" data-smash-rate="{{ p.smash_rate }}"
+                    data-pass-rate="{{ p.pass_rate }}" data-pending-rate="{{ p.pending_rate }}"
+                    onclick="expandImage('{{ p.image_url|escapejs }}', '{{ p.name|escapejs }}', {{ p.pokeapi_id }})">
+                    <img src="{{ p.image_url }}" alt="{{ p.name }}" loading="lazy">
+                    <div class="gallery-info">
+                        <span class="gallery-name">{{ p.name }} <small>#{{ p.pokeapi_id }}</small></span>
+
+                        <div class="rate-bar-container">
+                            <div class="rate-values" style="justify-content: space-around;">
+                                <span class="rate-smash" title="Smash"
+                                    onclick="event.stopPropagation(); showVoters('{{ p.pokeapi_id }}', 'smash', '{{ p.name|escapejs }}')">
+                                    <span class="rate-percent">{{ p.smash_rate|floatformat:1 }}%</span>
+                                    <span class="rate-icon">👍</span>
+                                </span>
+                                <span class="rate-pending" title="Not Voted"
+                                    onclick="event.stopPropagation(); showVoters('{{ p.pokeapi_id }}', 'pending', '{{ p.name|escapejs }}')">
+                                    <span class="rate-percent" style="opacity: 0.5;">{{ p.pending_rate|floatformat:1 }}%</span>
+                                    <span class="rate-icon" style="opacity: 0.5;">⌛</span>
+                                </span>
+                                <span class="rate-pass" title="Pass"
+                                    onclick="event.stopPropagation(); showVoters('{{ p.pokeapi_id }}', 'pass', '{{ p.name|escapejs }}')">
+                                    <span class="rate-percent">{{ p.pass_rate|floatformat:1 }}%</span>
+                                    <span class="rate-icon">👎</span>
+                                </span>
+                            </div>
+                            <div class="rate-bar" style="display: flex;">
+                                <div class="rate-bar-fill smash" style="width: {{ p.smash_rate }}%"></div>
+                                <div class="rate-bar-fill pending" style="width: {{ p.pending_rate }}%"></div>
+                                <div class="rate-bar-fill pass" style="width: {{ p.pass_rate }}%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
     </main>
+
+    <!-- Image Expansion Overlay (Reused from user_stats) -->
+    <div id="imageExpansionOverlay" class="image-expansion-overlay" onclick="closeExpansion()">
+        <button class="modal-close" onclick="closeExpansion()">&times;</button>
+        <div class="expanded-image-container" onclick="event.stopPropagation()">
+            <img id="expandedImage" src="" alt="">
+            <div class="expanded-info">
+                <span id="expandedName" class="expanded-name"></span>
+                <span id="expandedId" class="expanded-id"></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Voters Detail Modal -->
+    <div id="votersModal" class="modal" onclick="closeVotersModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeVotersModal()">&times;</button>
+            <h2 id="votersTitle" class="modal-title">Voters</h2>
+            <div id="voterList" class="voter-list">
+                <!-- Groups injected by JS -->
+            </div>
+        </div>
+    </div>
+
+    {{ pokemon_stats|json_script:"gallery-data" }}
+
+    <script>
+        const galleryData = JSON.parse(document.getElementById('gallery-data').textContent).reduce((acc, curr) => {
+            acc[curr.pokeapi_id] = curr;
+            return acc;
+        }, {});
+
+        function showVoters(id, type, name) {
+            const modal = document.getElementById('votersModal');
+            const title = document.getElementById('votersTitle');
+            const list = document.getElementById('voterList');
+            const data = galleryData[id];
+
+            let users = [];
+            let typeLabel = '';
+            let typeClass = '';
+
+            if (type === 'smash') {
+                users = data.smash_users;
+                typeLabel = 'Smashed';
+                typeClass = 'smash-stat';
+            } else if (type === 'pass') {
+                users = data.pass_users;
+                typeLabel = 'Passed';
+                typeClass = 'pass-stat';
+            } else {
+                users = data.pending_users;
+                typeLabel = 'Pending Vote';
+                typeClass = 'pending-stat';
+            }
+
+            title.innerHTML = `Who <span class="${typeClass}">${typeLabel}</span> ${name}?`;
+            list.innerHTML = '';
+
+            if (!users || users.length === 0) {
+                list.innerHTML = `<p style="opacity: 0.5;">No one has ${typeLabel.toLowerCase()} this Pokémon yet.</p>`;
+            } else {
+                users.forEach(username => {
+                    const tag = document.createElement('a');
+                    tag.className = 'voter-tag';
+                    tag.href = `/analytics/user/${username}/`;
+                    tag.textContent = username;
+                    list.appendChild(tag);
+                });
+            }
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeVotersModal() {
+            document.getElementById('votersModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        function sortGallery(btn, criteria) {
+            const gallery = document.getElementById('pokemon-gallery');
+            const items = Array.from(gallery.children);
+
+            // Update buttons
+            document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            items.sort((a, b) => {
+                let valA = parseFloat(a.getAttribute(`data-${criteria.replace('_', '-')}`));
+                let valB = parseFloat(b.getAttribute(`data-${criteria.replace('_', '-')}`));
+
+                if (criteria === 'pokeapi_id') {
+                    return valA - valB; // Ascending for ID
+                } else {
+                    return valB - valA; // Descending for Rates
+                }
+            });
+
+            gallery.innerHTML = '';
+            items.forEach(item => gallery.appendChild(item));
+        }
+
+        function expandImage(url, name, id) {
+            const overlay = document.getElementById('imageExpansionOverlay');
+            const img = document.getElementById('expandedImage');
+            const nameEl = document.getElementById('expandedName');
+            const idEl = document.getElementById('expandedId');
+
+            img.src = url;
+            nameEl.textContent = name;
+            idEl.textContent = '#' + id;
+
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeExpansion() {
+            document.getElementById('imageExpansionOverlay').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape') {
+                closeExpansion();
+            }
+        });
+    </script>
 </body>
 
 </html>
+
+

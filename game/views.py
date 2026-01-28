@@ -105,32 +105,18 @@ def vote(request, pokemon_id):
             
             # Update existing vote
             existing_vote.smash = is_smash
-            existing_vote.save()
-            
-            # Adjust aggregate counts
-            if is_smash:
-                # Changed from Pass to Smash
-                pokemon.smash_count += 1
-                pokemon.pass_count = max(0, pokemon.pass_count - 1)
-            else:
-                # Changed from Smash to Pass
-                pokemon.pass_count += 1
-                pokemon.smash_count = max(0, pokemon.smash_count - 1)
+            existing_vote.save()  # Signal will update counts
         else:
             # Create new vote
             Vote.objects.create(
                 username=username,
                 pokemon=pokemon,
                 smash=is_smash
-            )
-            
-            if is_smash:
-                pokemon.smash_count += 1
-            else:
-                pokemon.pass_count += 1
+            )  # Signal will update counts
         
-        pokemon.save()
-        
+        # We need to refresh the pokemon object because the signal changed it in the DB
+        pokemon.refresh_from_db()
+
         return JsonResponse({
             'status': 'success',
             'smash_count': pokemon.smash_count,
